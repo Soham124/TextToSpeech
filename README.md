@@ -1,28 +1,28 @@
 # Text-to-Speech Converter
 
-This is a simple **Text-to-Speech Converter** project that converts any written text into speech using the browser's built-in `speechSynthesis` API. The project has a clean, modern design and is easy to use.
+This is a simple Text-to-Speech Converter built using HTML, CSS, and JavaScript with the ResponsiveVoice API. It allows users to enter text and listen to it being read aloud in various languages.
 
 ## Features
-- **Text-to-Speech**: Enter text into a textarea and click a button to hear it spoken aloud.
-- **Modern UI**: Styled with a gradient background, rounded edges, and responsive layout.
-- **Simple and Fast**: No external dependencies or frameworks required.
+- Allows users to input text into a textarea.
+- Converts the entered text into speech with the selected voice.
+- The voice can be selected from a dropdown menu with the following languages:
+  - UK English Female
+  - UK English Male
+  - US English Female
+  - US English Male
+  - Hindi Female
+- Button to initiate the speech conversion.
+- Uses the [ResponsiveVoice API](https://responsivevoice.org/).
 
 ## Technologies Used
-- **HTML**: For creating the structure of the webpage.
-- **CSS**: For styling and making the user interface visually appealing.
-- **JavaScript**: For adding functionality using the browser's `speechSynthesis` API.
+- **HTML** for the structure of the page.
+- **CSS** for styling and creating a responsive, visually appealing interface.
+- **JavaScript** for dynamic interactions, such as fetching voices and converting text to speech.
+- **ResponsiveVoice API** to handle the text-to-speech functionality.
 
-## How to Use
-1. Open the project in a web browser.
-2. Enter any text in the provided textarea.
-3. Click the "Listen" button to hear the text spoken aloud.
+## Getting Started
 
-
-## Requirements
-- A modern web browser (e.g., Chrome, Edge) that supports the `speechSynthesis` API.
-- JavaScript enabled in the browser.
-
-
-## Contribution
-Feel free to contribute by forking this repository, adding new features, or reporting issues. Pull requests are welcome!
-
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/text-to-speech-converter.git
+   cd text-to-speech-converter
