@@ -3,15 +3,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const button = document.querySelector("button");
     const select = document.getElementById("languageSelect");
 
-    // Populate language dropdown using ResponsiveVoice supported languages
+    // Populate language dropdown with only the five specific languages
     function populateLanguages() {
         const voices = responsiveVoice.getVoices();
         select.innerHTML = ''; // Clear the select dropdown before populating
-        voices.forEach(voice => {
-            const option = document.createElement("option");
-            option.value = voice.name;
-            option.textContent = ${voice.name} (${voice.lang});
-            select.appendChild(option);
+        
+        // Adding only the specified voices
+        const specifiedVoices = [
+            "UK English Female",
+            "UK English Male",
+            "US English Female",
+            "US English Male",
+            "Hindi Female"
+        ];
+
+        specifiedVoices.forEach(voiceName => {
+            const voice = voices.find(v => v.name === voiceName);
+            if (voice) {
+                const option = document.createElement("option");
+                option.value = voice.name;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                select.appendChild(option);
+            }
         });
     }
 
