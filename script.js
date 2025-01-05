@@ -1,50 +1,59 @@
-// Select necessary elements
-const textarea = document.querySelector("textarea");
-const voiceSelect = document.querySelector("select");
-const button = document.querySelector("button");
+document.addEventListener("DOMContentLoaded", function () {
+    const textarea = document.querySelector("textarea");
+    const button = document.querySelector("button");
+    const select = document.getElementById("languageSelect");
 
-// SpeechSynthesis instance
-const speech = new SpeechSynthesisUtterance();
-let voices = [];
+    // List of working voices manually selected
+    const workingVoices = [
+        { name: "UK English Female", lang: "en-GB" },
+        { name: "US English Female", lang: "en-US" },
+        { name: "UK English Male", lang: "en-GB" },
+        { name: "US English Male", lang: "en-US" }
+    ];
 
-// Fetch available voices
-const loadVoices = () => {
-  voices = window.speechSynthesis.getVoices();
+    // Populate language dropdown with only available voices
+    function populateLanguages() {
+        const voices = responsiveVoice.getVoices();
+        select.innerHTML = ''; // Clear the select dropdown before populating
+        
+        workingVoices.forEach(voice => {
+            // Check if the voice is available in the system
+            const option = document.createElement("option");
+            option.value = voice.name;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            select.appendChild(option);
+        });
+    }
 
-  // Populate dropdown with available voices
-  voiceSelect.innerHTML = "";
-  voices.forEach((voice, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = `${voice.name} (${voice.lang})`;
-    voiceSelect.appendChild(option);
-  });
+    // Load voices once ResponsiveVoice API is ready
+    if (responsiveVoice.getVoices().length === 0) {
+        // Wait until voices are available
+        responsiveVoice.addEventListener('voiceschanged', populateLanguages);
+    } else {
+        populateLanguages();  // Fallback to populate voices immediately if already loaded
+    }
 
-  // Set default voice
-  if (voices.length > 0) {
-    speech.voice = voices[0];
-  }
-};
+    // Convert text to speech using the selected voice
+    function convertTextToSpeech() {
+        const text = textarea.value;
+        if (text === "") {
+            alert("Please enter some text to convert.");
+            return;
+        }
 
-// Load voices on page load and when voices change
-window.speechSynthesis.onvoiceschanged = loadVoices;
-loadVoices();
+        const selectedVoiceName = select.value;
+        const voices = responsiveVoice.getVoices();
+        const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
 
-// Update voice when a new one is selected
-voiceSelect.addEventListener("change", () => {
-  const selectedVoice = voices[voiceSelect.value];
-  speech.voice = selectedVoice;
-});
+        if (!selectedVoice) {
+            alert("Selected voice is unavailable.");
+            return;
+        }
 
-// Handle text-to-speech conversion
-button.addEventListener("click", () => {
-  const text = textarea.value.trim();
+        // Use ResponsiveVoice API to speak the text
+        responsiveVoice.speak(text, selectedVoice.name);
+    }
 
-  if (text === "") {
-    alert("Please enter some text to convert to speech.");
-    return;
-  }
-
-  speech.text = text;
-  window.speechSynthesis.speak(speech);
+    // Event listener for the button
+    button.addEventListener("click", convertTextToSpeech);
 });
